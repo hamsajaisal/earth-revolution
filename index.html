@@ -48,7 +48,7 @@
   .readout{display:flex;flex-direction:column;gap:14px}
   .date-pill{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:800;font-size:1.5rem}
   .dot{width:14px;height:14px;border-radius:50%;flex:none}
-  .where{font-size:1.05rem}
+  .where{font-size:1.05rem;min-height:3em;display:flex;align-items:center}
   .where strong{color:var(--sun)}
   .explain{color:var(--muted);min-height:3.2em}
 
@@ -110,7 +110,7 @@
 
   <div class="stage">
     <div class="card orbit-card">
-      <svg id="orbit" viewBox="0 0 520 440" role="img" aria-label="Diagram of Earth revolving around the Sun">
+      <svg id="orbit" viewBox="0 0 680 440" role="img" aria-label="Diagram of Earth revolving around the Sun">
         <defs>
           <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stop-color="#fff3c4"/>
@@ -122,34 +122,34 @@
           </clipPath>
         </defs>
 
-        <!-- Orbit Ellipse -->
-        <ellipse cx="260" cy="220" rx="200" ry="150" fill="none" stroke="var(--line)" stroke-dasharray="3 7"/>
+        <!-- Orbit Ellipse (Centered at x=340) -->
+        <ellipse cx="340" cy="220" rx="200" ry="150" fill="none" stroke="var(--line)" stroke-dasharray="3 7"/>
         
         <!-- Dashed lines connecting Sun to the four solstices/equinoxes (Textbook matching) -->
         <g stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5">
-          <line x1="260" y1="220" x2="260" y2="70" />   <!-- Top: Spring Equinox -->
-          <line x1="260" y1="220" x2="60" y2="220" />    <!-- Left: Summer Solstice -->
-          <line x1="260" y1="220" x2="260" y2="370" />  <!-- Bottom: Autumnal Equinox -->
-          <line x1="260" y1="220" x2="460" y2="220" />   <!-- Right: Winter Solstice -->
+          <line x1="340" y1="220" x2="340" y2="70" />   <!-- Top: Spring Equinox -->
+          <line x1="340" y1="220" x2="140" y2="220" />  <!-- Left: Summer Solstice -->
+          <line x1="340" y1="220" x2="340" y2="370" />  <!-- Bottom: Autumnal Equinox -->
+          <line x1="340" y1="220" x2="540" y2="220" />  <!-- Right: Winter Solstice -->
         </g>
 
-        <!-- Sun at Center -->
-        <circle cx="260" cy="220" r="34" fill="url(#sunGrad)"/>
-        <circle cx="260" cy="220" r="46" fill="none" stroke="var(--sun)" stroke-opacity=".3" stroke-width="8"/>
+        <!-- Sun at Center (x=340) -->
+        <circle cx="340" cy="220" r="34" fill="url(#sunGrad)"/>
+        <circle cx="340" cy="220" r="46" fill="none" stroke="var(--sun)" stroke-opacity=".3" stroke-width="8"/>
         
         <!-- Solstice/Equinox Orbit Indicators (Correctly mapped colors) -->
         <g font-size="11" fill="var(--muted)" text-anchor="middle">
-          <circle cx="260" cy="70"  r="3" fill="var(--equator)"/>  <!-- Top: March 21 (Equator) -->
-          <circle cx="60"  cy="220" r="3" fill="var(--cancer)"/>   <!-- Left: June 21 (Cancer) -->
-          <circle cx="260" cy="370" r="3" fill="var(--equator)"/>  <!-- Bottom: Sept 23 (Equator) -->
-          <circle cx="460" cy="220" r="3" fill="var(--capri)"/>    <!-- Right: Dec 22 (Capricorn) -->
+          <circle cx="340" cy="70"  r="3" fill="var(--equator)"/>  <!-- Top: March 21 (Equator) -->
+          <circle cx="140" cy="220" r="3" fill="var(--cancer)"/>   <!-- Left: June 21 (Cancer) -->
+          <circle cx="340" cy="370" r="3" fill="var(--equator)"/>  <!-- Bottom: Sept 23 (Equator) -->
+          <circle cx="540" cy="220" r="3" fill="var(--capri)"/>    <!-- Right: Dec 22 (Capricorn) -->
         </g>
 
         <!-- Light Beam (Starts pointing to Top: March 21 starting position) -->
-        <line id="beam" x1="260" y1="220" x2="260" y2="70" stroke="var(--beam)" stroke-width="10" stroke-linecap="round"/>
+        <line id="beam" x1="340" y1="220" x2="340" y2="70" stroke="var(--beam)" stroke-width="10" stroke-linecap="round"/>
         
-        <!-- Earth Group (Starts at Top position: x=260, y=70) -->
-        <g id="earth" transform="translate(260,70)">
+        <!-- Earth Group (Starts at Top position: x=340, y=70) -->
+        <g id="earth" transform="translate(340,70)">
           <!-- Ocean Background -->
           <circle r="22" fill="#1b5ecb"/>
           
@@ -183,21 +183,24 @@
           </g>
         </g>
 
-        <!-- Solstice/Equinox static text labels in the SVG (Mirroring the textbook) -->
+        <!-- Glowing Subsolar Point on Earth's Surface (Yellow target dot) -->
+        <circle id="subsolarDot" r="4" fill="#ffcc00" stroke="#ffffff" stroke-width="1.2" filter="drop-shadow(0 0 3px #ff7e00)"/>
+
+        <!-- Solstice/Equinox static text labels in the SVG (Mirroring the textbook with padding to prevent cut-off) -->
         <g font-family="var(--font-display)" font-size="10.5" font-weight="bold" opacity="0.85" aria-hidden="true">
           <!-- Top: Spring Equinox -->
-          <text x="260" y="44" fill="var(--equator)" text-anchor="middle" data-i18n="springLabel">Spring Equinox · March 21</text>
+          <text x="340" y="44" fill="var(--equator)" text-anchor="middle" data-i18n="springLabel">Spring Equinox · March 21</text>
           
           <!-- Left: Summer Solstice -->
-          <text x="35" y="215" fill="var(--cancer)" text-anchor="end" data-i18n="summerLabel">Summer Solstice</text>
-          <text x="35" y="231" fill="var(--muted)" text-anchor="end">June 21</text>
+          <text x="115" y="215" fill="var(--cancer)" text-anchor="end" data-i18n="summerLabel">Summer Solstice</text>
+          <text x="115" y="231" fill="var(--muted)" text-anchor="end">June 21</text>
           
           <!-- Bottom: Autumnal Equinox -->
-          <text x="260" y="408" fill="var(--equator)" text-anchor="middle" data-i18n="autumnLabel">Autumnal Equinox · September 23</text>
+          <text x="340" y="408" fill="var(--equator)" text-anchor="middle" data-i18n="autumnLabel">Autumnal Equinox · September 23</text>
           
           <!-- Right: Winter Solstice -->
-          <text x="485" y="215" fill="var(--capri)" text-anchor="start" data-i18n="winterLabel">Winter Solstice</text>
-          <text x="485" y="231" fill="var(--muted)" text-anchor="start">December 22</text>
+          <text x="565" y="215" fill="var(--capri)" text-anchor="start" data-i18n="winterLabel">Winter Solstice</text>
+          <text x="565" y="231" fill="var(--muted)" text-anchor="start">December 22</text>
         </g>
       </svg>
 
@@ -251,13 +254,18 @@ const STR={
     cancer:"Tropic of Cancer",equator:"Equator",capri:"Tropic of Capricorn",
     foot:"Built for high school learning · Universal Design for Learning · Works with keyboard and screen readers. Press Arrow keys to manually rotate the Earth.",
     whereTpl:p=>`The Sun's rays now fall straight down on the <strong>${p}</strong>.`,
+    betweenTpl:p=>`The Sun's rays are <strong>${p}</strong>.`,
     latTpl:(d,h)=>`Direct sunlight latitude: <b>${d}</b> ${h}`,
     north:"north of the Equator",south:"south of the Equator",onEq:"(on the Equator)",
     moveN:"moving north",moveS:"moving south",
     springLabel:"Spring Equinox · March 21",
     summerLabel:"Summer Solstice",
     autumnLabel:"Autumnal Equinox · September 23",
-    winterLabel:"Winter Solstice"},
+    winterLabel:"Winter Solstice",
+    betweenEqCancer:"moving north towards the Tropic of Cancer",
+    betweenCancerEq:"moving south towards the Equator",
+    betweenEqCapri:"moving south towards the Tropic of Capricorn",
+    betweenCapriEq:"moving north towards the Equator"},
   ml:{eyebrow:"ഒരു വർഷം · ഒരു റെവല്യൂഷൻ",title:"സഞ്ചരിക്കുന്ന സൂര്യൻ",
     titleml:"നേർ സൂര്യപ്രകാശം ട്രോപിക്കുകൾക്കിടയിൽ നീങ്ങുന്നതെങ്ങനെ",
     lead:"ഭൂമി 23.5° ചരിഞ്ഞാണ് നിൽക്കുന്നത്. അത് സൂര്യനു ചുറ്റും കറങ്ങുമ്പോൾ, സൂര്യരശ്മികൾ നേരെ പതിക്കുന്ന സ്ഥലം ട്രോപിക് ഓഫ് ക്യാൻസർ, ഇക്വേറ്റർ, ട്രോപിക് ഓഫ് ക്യാപ്രികോൺ എന്നിവയ്ക്കിടയിൽ സഞ്ചരിക്കുന്നു. വർഷം പ്ലേ ചെയ്ത് കണ്ടു നോക്കൂ.",
@@ -266,13 +274,18 @@ const STR={
     cancer:"ട്രോപിക് ഓഫ് ക്യാൻസർ",equator:"ഇക്വേറ്റർ",capri:"ട്രോപിക് ഓഫ് ക്യാപ്രികോൺ",
     foot:"ഹൈസ്കൂൾ പഠനത്തിനായി · യൂണിവേഴ്സൽ ഡിസൈൻ ഫോർ ലേണിംഗ് · കീബോർഡും സ്ക്രീൻ റീഡറും ഉപയോഗിച്ച് പ്രവർത്തിക്കും. ഭൂമി കറക്കാൻ ആരോ കീകൾ ഉപയോഗിക്കാം.",
     whereTpl:p=>`സൂര്യരശ്മികൾ ഇപ്പോൾ <strong>${p}</strong> ന് നേരെ പതിക്കുന്നു.`,
+    betweenTpl:p=>`സൂര്യരശ്മികൾ ഇപ്പോൾ <strong>${p}</strong>.`,
     latTpl:(d,h)=>`നേർ സൂര്യപ്രകാശ അക്ഷാംശം: <b>${d}</b> ${h}`,
     north:"ഇക്വേറ്ററിന് വടക്ക്",south:"ഇക്വേറ്ററിന് തെക്ക്",onEq:"(ഇക്വേറ്ററിൽ)",
     moveN:"വടക്കോട്ട് നീങ്ങുന്നു",moveS:"തെക്കോട്ട് നീങ്ങുന്നു",
     springLabel:"വസന്ത വിഷുവം · മാർച്ച് 21",
     summerLabel:"വേനൽ അയനം",
     autumnLabel:"ശരത് വിഷുവം · സെപ്റ്റംബർ 23",
-    winterLabel:"ശീത അയനം"}
+    winterLabel:"ശീത അയനം",
+    betweenEqCancer:"വടക്കോട്ട് ട്രോപിക് ഓഫ് ക്യാൻസറിലേക്ക് നീങ്ങുന്നു",
+    betweenCancerEq:"തെക്കോട്ട് ഇക്വേറ്ററിലേക്ക് നീങ്ങുന്നു",
+    betweenEqCapri:"തെക്കോട്ട് ട്രോപിക് ഓഫ് ക്യാപ്രികോണിലേക്ക് നീങ്ങുന്നു",
+    betweenCapriEq:"വടക്കോട്ട് ഇക്വേറ്ററിലേക്ക് നീങ്ങുന്നു"}
 };
 
 /* Key dates as fractions of the year (t = 0..360 maps to one revolution starting Mar 21) */
@@ -295,6 +308,36 @@ const STEPS=[
        ml:"സൂര്യൻ 23.5°S ൽ എത്തി. ഇതിനു ശേഷം വീണ്ടും ഇക്വേറ്ററിലേക്ക് — ഒരു റെവല്യൂഷൻ പൂർത്തിയായി."}}
 ];
 
+const MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const MONTHS_ML = ["ജനുവരി", "ഫെബ്രുവരി", "മാർച്ച്", "ഏപ്രിൽ", "മേയ്", "ജൂൺ", "ജൂലൈ", "ആഗസ്റ്റ്", "സെപ്റ്റംബർ", "ഒക്ടോബർ", "നവംബർ", "ഡിസംബർ"];
+
+// Linear interpolation to get actual date throughout the year
+function getDateFromT(tt) {
+  let daysFromMarch21 = 0;
+  if (tt < 90) {
+    daysFromMarch21 = (tt / 90) * 92;
+  } else if (tt < 180) {
+    daysFromMarch21 = 92 + ((tt - 90) / 90) * 94;
+  } else if (tt < 270) {
+    daysFromMarch21 = 92 + 94 + ((tt - 180) / 90) * 90;
+  } else {
+    daysFromMarch21 = 92 + 94 + 90 + ((tt - 270) / 90) * 89;
+  }
+  
+  let dayOfYear = (79 + Math.round(daysFromMarch21)) % 365;
+  const daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  let m = 0;
+  let d = dayOfYear + 1;
+  while (d > daysInMonths[m]) {
+    d -= daysInMonths[m];
+    m++;
+  }
+  return {
+    en: `${MONTHS_EN[m]} ${d}`,
+    ml: `${MONTHS_ML[m]} ${d}`
+  };
+}
+
 let lang="en", t=0, playing=false, raf=null, lastTs=0;
 let narrOn=false, soniOn=false, audioCtx=null, osc=null, gain=null;
 let lastAnnouncedIdx = -1; // To prevent live region spam
@@ -307,28 +350,21 @@ const stepsEl=document.getElementById('steps');
 const scrub=document.getElementById('scrub');
 const shadowGroup=document.getElementById('shadowGroup');
 const continents=document.getElementById('continents');
+const subsolarDot=document.getElementById('subsolarDot');
 
-// Redefined to place March 21 (t=0) at Top, and orbit counter-clockwise
+// Correctly centered at x=340
 function earthPos(angle){
-  const r=(angle + 90)*Math.PI/180; // Adds 90 degrees so 0 maps to Top
-  return{x:260+200*Math.cos(r),y:220-150*Math.sin(r)};
+  const r=(angle + 90)*Math.PI/180; // Adds 90 degrees so 0 maps to Top (March 21)
+  return{x:340+200*Math.cos(r),y:220-150*Math.sin(r)};
 }
 
 /* Subsolar latitude: +23.5 at t=90, 0 at 0/180, -23.5 at 270 */
 function subsolarLat(tt){return 23.5*Math.sin(tt*Math.PI/180);}
 
 function nearestStep(tt){
-  // snap-ish: find closest key date for label text
   let best=0,bd=999;
   STEPS.forEach((s,i)=>{let d=Math.min(Math.abs(s.at-tt),360-Math.abs(s.at-tt));if(d<bd){bd=d;best=i;}});
   return {idx:best,exact:bd<2.5};
-}
-
-function placeForLat(lat){
-  if(lat>22.5)return{en:"Tropic of Cancer",ml:"ട്രോപിക് ഓഫ് ക്യാൻസർ"};
-  if(lat<-22.5)return{en:"Tropic of Capricorn",ml:"ട്രോപിക് ഓഫ് ക്യാപ്രികോൺ"};
-  if(Math.abs(lat)<1)return{en:"Equator",ml:"ഇക്വേറ്റർ"};
-  return null;
 }
 
 function render(animate){
@@ -336,26 +372,72 @@ function render(animate){
   earth.style.transition=animate?'transform .25s linear':'none';
   earth.setAttribute('transform',`translate(${p.x},${p.y})`);
   beam.style.transition=animate?'all .25s linear':'none';
-  beam.setAttribute('x2',p.x); beam.setAttribute('y2',p.y);
 
   const lat=subsolarLat(t);
   const {idx,exact}=nearestStep(t);
   const s=STEPS[idx];
 
-  // date pill shows nearest key date; dot color reflects current latitude band
-  const labelDate = s.date[lang];
+  // Dynamic date calculation
+  const currentDate = getDateFromT(t);
+  const labelDate = currentDate[lang];
   document.getElementById('dateLabel').textContent=labelDate;
-  const band=placeForLat(lat);
-  document.getElementById('hotdot').style.background = lat>22.5?'var(--cancer)':lat<-22.5?'var(--capri)':Math.abs(lat)<0.6?'var(--equator)':'var(--sun)';
 
-  const placeName = (band?band:s.place)[lang];
-  document.getElementById('whereLabel').innerHTML=STR[lang].whereTpl(placeName);
+  // Dot color reflects whether rays are at cancer (blue), capri (pink), equator (green), or in-between (yellow)
+  const isCancer = lat > 22.8;
+  const isCapri = lat < -22.8;
+  const isEquator = Math.abs(lat) < 0.6;
+  document.getElementById('hotdot').style.background = isCancer?'var(--cancer)':isCapri?'var(--capri)':isEquator?'var(--equator)':'var(--sun)';
+
+  // Calculate dynamic subsolar position on the Earth's surface in tilted local coordinates
+  const y_local = - (lat / 23.5) * 9;
+  let x_local = Math.sqrt(22*22 - y_local*y_local);
+  
+  // Decide positive/negative x based on direction facing the Sun (340, 220)
+  const rad = -23.5 * Math.PI / 180;
+  const dx = 340 - p.x;
+  const dy = 220 - p.y;
+  const dx_local = dx * Math.cos(rad) - dy * Math.sin(rad);
+  if (dx_local < 0) {
+    x_local = -x_local;
+  }
+  
+  // Convert local coordinate to global coordinate
+  const radT = 23.5 * Math.PI / 180;
+  const x_glob = p.x + x_local * Math.cos(radT) - y_local * Math.sin(radT);
+  const y_glob = p.y + x_local * Math.sin(radT) + y_local * Math.cos(radT);
+
+  // Set beam's endpoint to the actual subsolar surface point (textbook correction)
+  beam.setAttribute('x2', x_glob);
+  beam.setAttribute('y2', y_glob);
+
+  // Place the glowing subsolar point indicator
+  subsolarDot.setAttribute('cx', x_glob);
+  subsolarDot.setAttribute('cy', y_glob);
+
+  // Continuous explanation text mapping
+  const cosT = Math.cos(t * Math.PI / 180);
+  const isMovingNorth = cosT > 0;
+  let msg = "";
+  if (isCancer) {
+    msg = STR[lang].whereTpl(STR[lang].cancer);
+  } else if (isCapri) {
+    msg = STR[lang].whereTpl(STR[lang].capri);
+  } else if (isEquator) {
+    msg = STR[lang].whereTpl(STR[lang].equator);
+  } else {
+    if (lat > 0) {
+      msg = STR[lang].betweenTpl(isMovingNorth ? STR[lang].betweenEqCancer : STR[lang].betweenCancerEq);
+    } else {
+      msg = STR[lang].betweenTpl(isMovingNorth ? STR[lang].betweenCapriEq : STR[lang].betweenEqCapri);
+    }
+  }
+  document.getElementById('whereLabel').innerHTML=msg;
 
   // latitude readout with direction of travel
   const deg=Math.abs(lat).toFixed(1)+"°";
-  const moving = Math.cos(t*Math.PI/180)>0 ? STR[lang].moveN : STR[lang].moveS;
-  let hemi = Math.abs(lat)<0.6?STR[lang].onEq:(lat>0?STR[lang].north:STR[lang].south);
-  document.getElementById('latLabel').innerHTML=STR[lang].latTpl(deg+" "+(Math.abs(lat)<0.6?'':''), hemi+" · "+moving);
+  const moving = isMovingNorth ? STR[lang].moveN : STR[lang].moveS;
+  let hemi = isEquator?STR[lang].onEq:(lat>0?STR[lang].north:STR[lang].south);
+  document.getElementById('latLabel').innerHTML=STR[lang].latTpl(deg+" "+(isEquator?'':''), hemi+" · "+moving);
 
   document.getElementById('explainLabel').textContent=s.ex[lang];
 
@@ -364,7 +446,7 @@ function render(animate){
   scrub.value=Math.round(t);
 
   // Update slider's screen-reader value text
-  const hemiSpeakText = Math.abs(lat)<0.6?STR[lang].onEq:(lat>0?STR[lang].north:STR[lang].south);
+  const hemiSpeakText = isEquator?STR[lang].onEq:(lat>0?STR[lang].north:STR[lang].south);
   const ariaValText = `${labelDate}. ${deg} ${hemiSpeakText}, ${moving}.`;
   scrub.setAttribute('aria-valuetext', ariaValText);
 
@@ -382,8 +464,8 @@ function render(animate){
   // live region only announces on exact key dates to avoid spamming screen readers
   if(exact && idx !== lastAnnouncedIdx){
     lastAnnouncedIdx = idx;
-    const msg=`${s.date[lang]}. ${s.sub[lang] ? s.sub[lang] + '. ' : ''}${STR[lang].whereTpl(s.place[lang]).replace(/<[^>]+>/g,'')} ${s.ex[lang]}`;
-    live.textContent=msg;
+    const msgLive=`${s.date[lang]}. ${s.sub[lang] ? s.sub[lang] + '. ' : ''}${STR[lang].whereTpl(s.place[lang]).replace(/<[^>]+>/g,'')} ${s.ex[lang]}`;
+    live.textContent=msgLive;
   } else if (!exact) {
     lastAnnouncedIdx = -1; // reset when leaving a key date band
   }
